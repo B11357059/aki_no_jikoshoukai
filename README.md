@@ -89,6 +89,24 @@
     .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 30px; display: block; }
 
     .greeting-box {
+    .greeting-box {
+    border: 2px solid var(--color-leaf-orange); 
+    border-radius: 50px;
+    padding: 10px 25px; 
+    margin: 0 auto 40px auto; 
+    width: fit-content;
+    text-align: center; 
+    cursor: pointer;
+    transition: 0.3s; /* 讓變色效果更平滑 */
+}
+
+.greeting-box:hover {
+    background-color: var(--color-leaf-orange); /* 移上去背景變橘色 */
+}
+
+.greeting-box:hover span {
+    color: white !important; /* 移上去文字變白色 */
+}
         border: 2px solid var(--color-leaf-orange); border-radius: 50px;
         padding: 10px 25px; margin: 0 auto 40px auto; width: fit-content;
         text-align: center; cursor: pointer;
@@ -111,7 +129,11 @@
 </head>
 <body>
 
-<div id="leaf-container"></div>
+<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" style="text-decoration: none;">
+    <div class="greeting-box">
+        <span style="color: var(--color-leaf-orange); font-weight: bold;">「相逢即是有緣。」</span>
+    </div>
+</a>
 
 <nav>
     <div class="nav-links">
