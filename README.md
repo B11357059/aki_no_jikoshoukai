@@ -12,27 +12,26 @@
         --color-sumi-green: #4F6353; 
         --color-sky-blue: #64A1C8;  
         --color-leaf-orange: #D48166; 
-        --color-milk-green: #E8F5E9; 
         --nav-height: 80px; 
     }
 
-    /* 1. 全域修正：物理置中保險 */
+    /* 全域重置，確保 100% 置中 */
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
         margin: 0; padding: 0; width: 100%;
-        overflow-x: hidden; /* 防止葉子撐開寬度導致不置中 */
+        overflow-x: hidden;
         background-color: var(--color-autumn-bg);
         font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
     }
 
     body {
         display: flex; flex-direction: column; align-items: center;
-        padding-top: calc(var(--nav-height) + 30px);
-        padding-bottom: 60px;
+        padding-top: calc(var(--nav-height) + 40px);
+        padding-bottom: 80px;
     }
 
-    /* 2. 楓葉容器：完全抽離佈局 */
+    /* 楓葉容器：不影響排版 */
     #leaf-container {
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         pointer-events: none; z-index: 9999;
@@ -45,63 +44,58 @@
         100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* 3. 導覽列 */
+    /* 導覽列 */
     nav {
         position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
         background-color: var(--color-sumi-blue);
         display: flex; justify-content: center; align-items: center;
         z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .nav-links { display: flex; gap: 15px; }
+    .nav-links { display: flex; gap: 18px; }
     .nav-item, .dropdown-trigger {
         color: white; text-decoration: none; font-weight: bold;
-        padding: 8px 12px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
+        padding: 8px 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
     }
 
     .dropdown { position: relative; }
     .dropdown-content {
         display: none; position: absolute; background: white; min-width: 140px;
         top: 100%; left: 50%; transform: translateX(-50%); border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; }
+    .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; font-size: 0.9em; }
 
-    /* 4. 主容器：確保絕對置中 */
+    /* 主容器：嚴格置中 */
     .container {
-        width: 90%; max-width: 700px; background: #fff;
-        padding: 40px 30px; margin: 0 auto;
-        border-radius: 8px; border-top: 10px solid var(--color-sumi-blue);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        width: 90%; max-width: 680px; background: #fff;
+        padding: 50px 40px; margin: 0 auto;
+        border-radius: 12px; border-top: 12px solid var(--color-sumi-blue);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
         position: relative; z-index: 5;
     }
 
-    h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 5px; margin-bottom: 5px; }
-    .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 30px; display: block; }
+    h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 6px; margin-bottom: 8px; font-size: 2.2em; }
+    .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 40px; display: block; font-size: 1.1em; }
 
-    /* 驚喜區塊樣式 */
-    .rickroll-link { text-decoration: none; display: block; width: fit-content; margin: 0 auto 40px auto; }
+    /* 瑞克搖連結 */
+    .rickroll-link { text-decoration: none; display: block; width: fit-content; margin: 0 auto 45px auto; }
     .greeting-box {
         border: 2px solid var(--color-leaf-orange); border-radius: 50px;
-        padding: 12px 30px; text-align: center; cursor: pointer;
+        padding: 12px 35px; text-align: center; cursor: pointer;
         transition: 0.3s; background: white;
     }
-    .greeting-box:hover { background-color: var(--color-leaf-orange); }
-    .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; transition: 0.3s; }
+    .greeting-box:hover { background-color: var(--color-leaf-orange); transform: scale(1.02); }
+    .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; }
     .greeting-box:hover span { color: white; }
 
-    /* 留言板 */
-    .message-board { background: var(--color-milk-green); padding: 20px; border-radius: 12px; border: 2px solid var(--color-sky-blue); }
-    .marquee-area { background: #fff; overflow: hidden; margin-bottom: 15px; border-radius: 6px; padding: 10px 0; }
-    .marquee-line { display: flex; white-space: nowrap; animation: marquee 25s linear infinite; }
-    @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-150%); } }
-    .marquee-item { padding-right: 60px; font-weight: bold; color: var(--color-sumi-blue); }
-
-    .message-form input, .message-form textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
-    .submit-btn { width: 100%; background: var(--color-sumi-blue); color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-
-    h3.section-title { color: var(--color-sumi-blue); border-left: 6px solid var(--color-sky-blue); padding-left: 15px; margin-top: 40px; }
-    .pit-category { border-left: 3px solid var(--color-sumi-green); padding-left: 15px; margin-bottom: 25px; }
-    .pit-inline-list { line-height: 1.8; word-break: break-all; }
+    /* 內容標題與列表 */
+    h3.section-title { color: var(--color-sumi-blue); border-left: 6px solid var(--color-sky-blue); padding-left: 15px; margin-top: 45px; margin-bottom: 20px; }
+    .pit-category { border-left: 3px solid var(--color-sumi-green); padding-left: 18px; margin-bottom: 28px; }
+    .pit-inline-list { line-height: 1.9; word-break: break-all; color: var(--color-sumi-text); }
+    
+    a { color: var(--color-sumi-blue); transition: 0.2s; }
+    a:hover { color: var(--color-sky-blue); }
 </style>
 </head>
 <body>
@@ -116,11 +110,10 @@
             <div class="dropdown-content">
                 <a href="#pit-anime">動漫/小說</a>
                 <a href="#pit-game">遊戲/VT</a>
-                <a href="#pit-retired">退坑</a>
+                <a href="#pit-retired">淡坑/退坑</a>
             </div>
         </div>
         <a href="#attr" class="nav-item">屬性</a>
-        <a href="#message" class="nav-item">留言</a>
         <a href="#contact" class="nav-item">聯絡</a>
     </div>
 </nav>
@@ -136,10 +129,10 @@
     </a>
 
     <h3 id="about" class="section-title">Ⅰ.🍂 關於我 🍂</h3>
-    <ul style="list-style: none; padding-left: 5px; line-height: 2;">
+    <ul style="list-style: none; padding-left: 5px; line-height: 2.2;">
         <li><strong>+ cn</strong> : 禾火 / 秋 / Aki</li>
         <li><strong>+✨</strong> : 10.02 天秤 | INTP</li>
-        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣</li>
+        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣 (漫畫版)</li>
         <li style="color: var(--color-sumi-green);">└ 完全貓派 特別喜歡傲嬌貓塑</li>
         <li style="color: var(--color-sumi-green); font-weight: bold;">- 不拒同擔，幾乎無雷，歡迎找我聊天!</li>
     </ul>
@@ -148,7 +141,7 @@
     <div id="pit-anime" class="pit-category">
         <h4>◈ 深坑 - 動漫/小說</h4>
         <div class="pit-inline-list">
-            《玩偶遊戲》羽山秋人、《失憶投捕》要圭、《全知讀者視角》金獨子、《TADC》Jax、《Alien Stage》Till、《極惡》Blitzø x 親王、《時光代理人》光 x 時、墨家三部曲。
+            《玩偶遊戲》羽山秋人、《失憶投捕》要圭、《全知讀者視角》金獨子、《TADC》Jax、《Alien Stage》Till、《極惡》Blitzø x 親王、墨家三部曲。
         </div>
     </div>
     <div id="pit-game" class="pit-category">
@@ -161,46 +154,47 @@
     <div id="pit-retired" class="pit-category">
         <h4>◈ 淡坑 / 退坑</h4>
         <div class="pit-inline-list" style="color: #888;">
-            《世界計畫》、乙遊、FPS遊戲、咒術、鏈鋸人、NIJI EN... 《逆水寒》、《燕雲》已完全退坑
+            《時光代理人》、 《世界計畫》、乙遊、FPS遊戲、咒術、鏈鋸人、NIJI EN... 《逆水寒》、《燕雲》已完全退坑
         </div>
     </div>
 
     <h3 id="attr" class="section-title">Ⅲ. 屬性</h3>
-    <p><strong>+ ✨</strong> : 雜食黨 但是官配 > 所有</p>
-    <p><strong>+ ✨</strong> : <span style="color: var(--color-sumi-blue); font-weight: bold;">BL >> GB > BG = GL</span></p>
-    <p><strong>+ ✨</strong> : [ all男主控 ]</p>
-
-    <h3 id="message" class="section-title">Ⅳ. 留言板</h3>
-    <div class="message-board">
-        <div class="marquee-area"><div class="marquee-line" id="marquee-list"></div></div>
-        <input type="text" id="user-name" placeholder="你的名字">
-        <textarea id="user-msg" rows="2" placeholder="跟我說說話(❁´◡`❁)"></textarea>
-        <button class="submit-btn" onclick="addMsg()">送出留言</button>
+    <div style="padding-left: 10px; line-height: 1.8;">
+        <p><strong>+ ✨</strong> : 雜食黨 但是官配 > 所有</p>
+        <p><strong>+ ✨</strong> : <span style="color: var(--color-sumi-blue); font-weight: bold;">BL >> GB > BG = GL</span></p>
+        <p><strong>+ ✨</strong> : [ all男主控 ]</p>
     </div>
 
-    <h3 id="contact" class="section-title">Ⅴ. 聯絡 </h3>
-    <p><a href="https://www.facebook.com/kowai.yu/" target="_blank">Facebook</a> / <a href="https://www.instagram.com/grassss_yuuuu/" target="_blank">Instagram</a></p>
-    <p>Discord: traveler7378</p>
+    <h3 id="contact" class="section-title">Ⅳ. 聯絡 </h3>
+    <div style="padding-left: 10px;">
+        <p><a href="https://www.facebook.com/kowai.yu/" target="_blank">Facebook</a> / <a href="https://www.instagram.com/grassss_yuuuu/" target="_blank">Instagram</a></p>
+        <p>Discord: traveler7378 (活躍)</p>
+    </div>
 
-    <h3 id="other" class="section-title">Ⅵ. 其他</h3>
-    <p>偶爾會開淘寶代購團。喜歡畫圖 (手繪 > 電繪)，正在猶豫買平板還是繪圖螢幕... 如果有人可以阻止我花錢，我會很感謝你的！</p>
+    <h3 id="other" class="section-title">Ⅴ. 其他</h3>
+    <div style="padding-left: 10px; line-height: 1.8;">
+        <p>偶爾會開淘寶代購團。喜歡手繪 > 電繪，正在猶豫買平板還是繪圖螢幕...</p>
+        <p style="color: var(--color-sumi-blue); font-weight: bold;">如果有人可以阻止我花錢，我會很感謝你的！</p>
+    </div>
 </div>
 
 <script>
-    // 1. 楓葉下落
+    // 1. 背景飄葉
     function leafFall() {
+        const container = document.getElementById('leaf-container');
+        if(!container) return;
         const leaf = document.createElement('div');
         leaf.className = 'leaf-fall';
         leaf.innerText = ['🍁', '🍂', '🍃'][Math.floor(Math.random()*3)];
         leaf.style.left = Math.random() * 100 + 'vw';
         const dur = Math.random() * 5 + 5;
         leaf.style.animation = `fall ${dur}s linear forwards`;
-        document.getElementById('leaf-container').appendChild(leaf);
+        container.appendChild(leaf);
         setTimeout(() => leaf.remove(), dur * 1000);
     }
     setInterval(leafFall, 800);
 
-    // 2. 點擊噴葉子
+    // 2. 點擊噴葉
     document.addEventListener('click', (e) => {
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
@@ -210,28 +204,12 @@
             const tx = (Math.random()-0.5)*200, ty = (Math.random()-0.5)*200;
             l.animate([
                 { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-            ], { duration: 800 });
+                { transform: `translate(${tx}px, ${ty}px) scale(0) rotate(180deg)`, opacity: 0 }
+            ], { duration: 800, easing: 'ease-out' });
             document.body.appendChild(l);
             setTimeout(() => l.remove(), 800);
         }
     });
-
-    // 3. 留言板功能
-    let data = [{n: "系統", t: "歡迎來到禾火人的空間！"}, {n: "秋", t: "今天想吃壽司🍣"}];
-    function render() {
-        const list = document.getElementById('marquee-list');
-        if(!list) return;
-        const content = data.map(i => `<span class="marquee-item">${i.n}: ${i.t}</span>`).join('');
-        list.innerHTML = content + content; // 重複兩次確保循環
-    }
-    function addMsg() {
-        const n = document.getElementById('user-name').value, t = document.getElementById('user-msg').value;
-        if(!n || !t) return;
-        data.unshift({n, t}); render();
-        document.getElementById('user-name').value = ''; document.getElementById('user-msg').value = '';
-    }
-    render();
 </script>
 </body>
 </html>
