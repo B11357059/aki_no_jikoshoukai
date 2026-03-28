@@ -13,31 +13,26 @@
         --color-sky-blue: #64A1C8;  
         --color-leaf-orange: #D48166; 
         --color-milk-green: #E8F5E9; 
-        --color-nav-height: 80px; 
+        --nav-height: 80px; 
     }
 
-    /* 1. 全域修正：防止寬度被撐開 */
-    *, *::before, *::after {
-        box-sizing: border-box;
-    }
+    /* 1. 全域修正：物理置中保險 */
+    *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
-        margin: 0; padding: 0;
-        width: 100%;
-        overflow-x: hidden; /* 徹底禁止橫向捲動，防止置中偏移 */
+        margin: 0; padding: 0; width: 100%;
+        overflow-x: hidden; /* 防止葉子撐開寬度導致不置中 */
         background-color: var(--color-autumn-bg);
         font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
     }
 
     body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* 讓所有內容在 Cross Axis 置中 */
-        padding-top: calc(var(--color-nav-height) + 30px);
+        display: flex; flex-direction: column; align-items: center;
+        padding-top: calc(var(--nav-height) + 30px);
         padding-bottom: 60px;
     }
 
-    /* 2. 楓葉與點擊容器：使用 fixed 且不佔空間 */
+    /* 2. 楓葉容器：完全抽離佈局 */
     #leaf-container {
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         pointer-events: none; z-index: 9999;
@@ -50,16 +45,16 @@
         100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* 3. 導覽列修正：確保內容也置中 */
+    /* 3. 導覽列 */
     nav {
-        position: fixed; top: 0; left: 0; width: 100%; height: var(--color-nav-height);
+        position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
         background-color: var(--color-sumi-blue);
         display: flex; justify-content: center; align-items: center;
         z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .nav-links { display: flex; gap: 15px; }
     .nav-item, .dropdown-trigger {
-        color: white; text-decoration: none; font-weight: bold; font-size: 1.05em;
+        color: white; text-decoration: none; font-weight: bold;
         padding: 8px 12px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
     }
 
@@ -71,48 +66,30 @@
     .dropdown:hover .dropdown-content { display: block; }
     .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; }
 
-    /* 4. 主容器修正：這是最容易歪掉的地方 */
+    /* 4. 主容器：確保絕對置中 */
     .container {
-        width: 90%;
-        max-width: 700px;
-        background: #fff;
-        padding: 40px 30px;
-        margin: 0 auto; /* 強制左右 margin 相等 */
-        border-radius: 8px;
-        border-top: 10px solid var(--color-sumi-blue);
+        width: 90%; max-width: 700px; background: #fff;
+        padding: 40px 30px; margin: 0 auto;
+        border-radius: 8px; border-top: 10px solid var(--color-sumi-blue);
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        position: relative;
-        z-index: 5;
+        position: relative; z-index: 5;
     }
 
     h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 5px; margin-bottom: 5px; }
     .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 30px; display: block; }
 
+    /* 驚喜區塊樣式 */
+    .rickroll-link { text-decoration: none; display: block; width: fit-content; margin: 0 auto 40px auto; }
     .greeting-box {
-    .greeting-box {
-    border: 2px solid var(--color-leaf-orange); 
-    border-radius: 50px;
-    padding: 10px 25px; 
-    margin: 0 auto 40px auto; 
-    width: fit-content;
-    text-align: center; 
-    cursor: pointer;
-    transition: 0.3s; /* 讓變色效果更平滑 */
-}
-
-.greeting-box:hover {
-    background-color: var(--color-leaf-orange); /* 移上去背景變橘色 */
-}
-
-.greeting-box:hover span {
-    color: white !important; /* 移上去文字變白色 */
-}
         border: 2px solid var(--color-leaf-orange); border-radius: 50px;
-        padding: 10px 25px; margin: 0 auto 40px auto; width: fit-content;
-        text-align: center; cursor: pointer;
+        padding: 12px 30px; text-align: center; cursor: pointer;
+        transition: 0.3s; background: white;
     }
+    .greeting-box:hover { background-color: var(--color-leaf-orange); }
+    .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; transition: 0.3s; }
+    .greeting-box:hover span { color: white; }
 
-    /* 留言板與跑馬燈 */
+    /* 留言板 */
     .message-board { background: var(--color-milk-green); padding: 20px; border-radius: 12px; border: 2px solid var(--color-sky-blue); }
     .marquee-area { background: #fff; overflow: hidden; margin-bottom: 15px; border-radius: 6px; padding: 10px 0; }
     .marquee-line { display: flex; white-space: nowrap; animation: marquee 25s linear infinite; }
@@ -129,11 +106,7 @@
 </head>
 <body>
 
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" style="text-decoration: none;">
-    <div class="greeting-box">
-        <span style="color: var(--color-leaf-orange); font-weight: bold;">「相逢即是有緣。」</span>
-    </div>
-</a>
+<div id="leaf-container"></div>
 
 <nav>
     <div class="nav-links">
@@ -156,16 +129,19 @@
     <h1 class="site-title">禾火人</h1>
     <span class="site-subtitle">都點進來了不看看我嗎ouo</span>
     
-    <div class="greeting-box">
-        <span style="color: var(--color-leaf-orange); font-weight: bold;">「相逢即是有緣。」</span>
-    </div>
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="rickroll-link">
+        <div class="greeting-box">
+            <span>「相逢即是有緣。」</span>
+        </div>
+    </a>
 
     <h3 id="about" class="section-title">Ⅰ.🍂 關於我 🍂</h3>
     <ul style="list-style: none; padding-left: 5px; line-height: 2;">
         <li><strong>+ cn</strong> : 禾火 / 秋 / Aki</li>
         <li><strong>+✨</strong> : 10.02 天秤 | INTP</li>
-        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣 (漫畫版)</li>
+        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣</li>
         <li style="color: var(--color-sumi-green);">└ 完全貓派 特別喜歡傲嬌貓塑</li>
+        <li style="color: var(--color-sumi-green); font-weight: bold;">- 不拒同擔，幾乎無雷，歡迎找我聊天!</li>
     </ul>
 
     <h3 id="pit" class="section-title">Ⅱ. 坑</h3>
@@ -182,10 +158,17 @@
             <strong style="color: var(--color-sky-blue);">[ 正在等待菲林斯 BJD... ]</strong>
         </div>
     </div>
+    <div id="pit-retired" class="pit-category">
+        <h4>◈ 淡坑 / 退坑</h4>
+        <div class="pit-inline-list" style="color: #888;">
+            《世界計畫》、乙遊、FPS遊戲、咒術、鏈鋸人、NIJI EN... 《逆水寒》、《燕雲》已完全退坑
+        </div>
+    </div>
 
     <h3 id="attr" class="section-title">Ⅲ. 屬性</h3>
     <p><strong>+ ✨</strong> : 雜食黨 但是官配 > 所有</p>
     <p><strong>+ ✨</strong> : <span style="color: var(--color-sumi-blue); font-weight: bold;">BL >> GB > BG = GL</span></p>
+    <p><strong>+ ✨</strong> : [ all男主控 ]</p>
 
     <h3 id="message" class="section-title">Ⅳ. 留言板</h3>
     <div class="message-board">
@@ -200,11 +183,11 @@
     <p>Discord: traveler7378</p>
 
     <h3 id="other" class="section-title">Ⅵ. 其他</h3>
-    <p>偶爾會開淘寶代購團。喜歡手繪 > 電繪，正在猶豫買平板還是繪圖螢幕... 如果有人可以阻止我花錢，我會很感謝你的！</p>
+    <p>偶爾會開淘寶代購團。喜歡畫圖 (手繪 > 電繪)，正在猶豫買平板還是繪圖螢幕... 如果有人可以阻止我花錢，我會很感謝你的！</p>
 </div>
 
 <script>
-    // 楓葉下落
+    // 1. 楓葉下落
     function leafFall() {
         const leaf = document.createElement('div');
         leaf.className = 'leaf-fall';
@@ -217,7 +200,7 @@
     }
     setInterval(leafFall, 800);
 
-    // 點擊噴葉子
+    // 2. 點擊噴葉子
     document.addEventListener('click', (e) => {
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
@@ -234,11 +217,13 @@
         }
     });
 
-    // 留言板
+    // 3. 留言板功能
     let data = [{n: "系統", t: "歡迎來到禾火人的空間！"}, {n: "秋", t: "今天想吃壽司🍣"}];
     function render() {
-        document.getElementById('marquee-list').innerHTML = data.map(i => `<span class="marquee-item">${i.n}: ${i.t}</span>`).join('') + 
-        data.map(i => `<span class="marquee-item">${i.n}: ${i.t}</span>`).join('');
+        const list = document.getElementById('marquee-list');
+        if(!list) return;
+        const content = data.map(i => `<span class="marquee-item">${i.n}: ${i.t}</span>`).join('');
+        list.innerHTML = content + content; // 重複兩次確保循環
     }
     function addMsg() {
         const n = document.getElementById('user-name').value, t = document.getElementById('user-msg').value;
