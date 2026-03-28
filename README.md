@@ -15,7 +15,7 @@
         --nav-height: 80px; 
     }
 
-    /* 全域重置，確保 100% 置中 */
+    /* 核心置中修正：防止任何元素撐開寬度 */
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
@@ -31,7 +31,7 @@
         padding-bottom: 80px;
     }
 
-    /* 楓葉容器：不影響排版 */
+    /* 楓葉容器：不影響主體排版 */
     #leaf-container {
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         pointer-events: none; z-index: 9999;
@@ -66,7 +66,7 @@
     .dropdown:hover .dropdown-content { display: block; }
     .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; font-size: 0.9em; }
 
-    /* 主容器：嚴格置中 */
+    /* 主容器：嚴格置中與變形修正 */
     .container {
         width: 90%; max-width: 680px; background: #fff;
         padding: 50px 40px; margin: 0 auto;
@@ -78,7 +78,7 @@
     h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 6px; margin-bottom: 8px; font-size: 2.2em; }
     .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 40px; display: block; font-size: 1.1em; }
 
-    /* 瑞克搖連結 */
+    /* 瑞克搖連結區塊 */
     .rickroll-link { text-decoration: none; display: block; width: fit-content; margin: 0 auto 45px auto; }
     .greeting-box {
         border: 2px solid var(--color-leaf-orange); border-radius: 50px;
@@ -89,12 +89,12 @@
     .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; }
     .greeting-box:hover span { color: white; }
 
-    /* 內容標題與列表 */
+    /* 內容區塊樣式 */
     h3.section-title { color: var(--color-sumi-blue); border-left: 6px solid var(--color-sky-blue); padding-left: 15px; margin-top: 45px; margin-bottom: 20px; }
     .pit-category { border-left: 3px solid var(--color-sumi-green); padding-left: 18px; margin-bottom: 28px; }
     .pit-inline-list { line-height: 1.9; word-break: break-all; color: var(--color-sumi-text); }
     
-    a { color: var(--color-sumi-blue); transition: 0.2s; }
+    a { color: var(--color-sumi-blue); text-decoration: none; transition: 0.2s; }
     a:hover { color: var(--color-sky-blue); }
 </style>
 </head>
@@ -179,7 +179,7 @@
 </div>
 
 <script>
-    // 1. 背景飄葉
+    // 1. 自動飄落葉
     function leafFall() {
         const container = document.getElementById('leaf-container');
         if(!container) return;
@@ -194,7 +194,7 @@
     }
     setInterval(leafFall, 800);
 
-    // 2. 點擊噴葉
+    // 2. 點擊噴發特效
     document.addEventListener('click', (e) => {
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
