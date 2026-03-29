@@ -12,10 +12,10 @@
         --color-sumi-green: #4F6353; 
         --color-sky-blue: #64A1C8;  
         --color-leaf-orange: #D48166; 
-        --nav-height: 80px; 
+        --nav-height: 70px; 
     }
 
-    /* 核心置中修正：防止任何元素撐開寬度 */
+    /* 核心重置：防止橫向溢出與變形 */
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
@@ -31,65 +31,77 @@
         padding-bottom: 80px;
     }
 
-    /* 楓葉容器：不影響主體排版 */
-    #leaf-container {
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        pointer-events: none; z-index: 9999;
-    }
-    .leaf-fall, .click-leaf { position: fixed; pointer-events: none; user-select: none; z-index: 10000; }
-    
-    @keyframes fall {
-        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.8; }
-        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
-
-    /* 導覽列 */
+    /* 1. 導覽列：採用 Grid 佈局確保絕對對稱 */
     nav {
         position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
         background-color: var(--color-sumi-blue);
         display: flex; justify-content: center; align-items: center;
         z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .nav-links { display: flex; gap: 18px; }
+
+    .nav-links { 
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); /* 4個按鈕等寬平分 */
+        gap: 8px; 
+        width: 95%; 
+        max-width: 550px; /* 限制寬度避免太散 */
+    }
+
     .nav-item, .dropdown-trigger {
         color: white; text-decoration: none; font-weight: bold;
-        padding: 8px 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+        padding: 10px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+        text-align: center; display: block; width: 100%; font-size: 0.9em;
+        cursor: pointer; transition: 0.2s;
     }
+    .nav-item:hover, .dropdown-trigger:hover { background: rgba(255,255,255,0.1); }
 
-    .dropdown { position: relative; }
+    /* 下拉選單 */
+    .dropdown { position: relative; width: 100%; }
     .dropdown-content {
-        display: none; position: absolute; background: white; min-width: 140px;
+        display: none; position: absolute; background: white; min-width: 130px;
         top: 100%; left: 50%; transform: translateX(-50%); border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15); overflow: hidden;
     }
     .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; font-size: 0.9em; }
+    .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; font-size: 0.85em; font-weight: bold; text-align: center; }
+    .dropdown-content a:hover { background-color: #f0f0f0; }
 
-    /* 主容器：嚴格置中與變形修正 */
+    /* 2. 楓葉特效容器 */
+    #leaf-container {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none; z-index: 9999;
+    }
+    .leaf-fall, .click-leaf { position: fixed; pointer-events: none; user-select: none; z-index: 10000; }
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* 3. 主內容容器 */
     .container {
         width: 90%; max-width: 680px; background: #fff;
-        padding: 50px 40px; margin: 0 auto;
+        padding: 50px 30px; margin: 0 auto;
         border-radius: 12px; border-top: 12px solid var(--color-sumi-blue);
         box-shadow: 0 15px 35px rgba(0,0,0,0.05);
         position: relative; z-index: 5;
     }
 
     h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 6px; margin-bottom: 8px; font-size: 2.2em; }
-    .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 40px; display: block; font-size: 1.1em; }
+    .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 40px; display: block; font-size: 1.05em; }
 
-    /* 瑞克搖連結區塊 */
+    /* 瑞克搖連結 */
     .rickroll-link { text-decoration: none; display: block; width: fit-content; margin: 0 auto 45px auto; }
     .greeting-box {
         border: 2px solid var(--color-leaf-orange); border-radius: 50px;
-        padding: 12px 35px; text-align: center; cursor: pointer;
+        padding: 12px 30px; text-align: center; cursor: pointer;
         transition: 0.3s; background: white;
     }
-    .greeting-box:hover { background-color: var(--color-leaf-orange); transform: scale(1.02); }
+    .greeting-box:hover { background-color: var(--color-leaf-orange); transform: scale(1.05); }
     .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; }
     .greeting-box:hover span { color: white; }
 
-    /* 內容區塊樣式 */
+    /* 文字內容樣式 */
     h3.section-title { color: var(--color-sumi-blue); border-left: 6px solid var(--color-sky-blue); padding-left: 15px; margin-top: 45px; margin-bottom: 20px; }
     .pit-category { border-left: 3px solid var(--color-sumi-green); padding-left: 18px; margin-bottom: 28px; }
     .pit-inline-list { line-height: 1.9; word-break: break-all; color: var(--color-sumi-text); }
@@ -103,57 +115,6 @@
 <div id="leaf-container"></div>
 
 <nav>
-
-/* 導覽列強制對稱修正 */
-    nav {
-        position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-        background-color: var(--color-sumi-blue);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    .nav-links { 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr); /* 強制平分成 4 格，每格寬度一樣 */
-        gap: 10px; 
-        width: 95%; 
-        max-width: 600px; /* 限制總寬度，避免分太開 */
-    }
-
-    .nav-item, .dropdown-trigger {
-        color: white; text-decoration: none; font-weight: bold;
-        padding: 10px 0; /* 改為上下內距，左右靠 Grid 自動分配 */
-        border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
-        text-align: center; /* 文字強制置中 */
-        display: block;
-        width: 100%;
-        font-size: 0.95em;
-    }
-
-    /* 下拉選單寬度修正 */
-    .dropdown { position: relative; width: 100%; }
-    .dropdown-content {
-        display: none; position: absolute; background: white; 
-        min-width: 120px; /* 縮小寬度防止撐歪 */
-        top: 100%; left: 50%; transform: translateX(-50%); 
-        border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-<nav>
-    <div class="nav-links">
-        <a href="#about" class="nav-item">關於我</a>
-        <div class="dropdown">
-            <span class="dropdown-trigger">坑 ▾</span>
-            <div class="dropdown-content">
-                <a href="#pit-anime">動漫/小說</a>
-                <a href="#pit-game">遊戲/VT</a>
-                <a href="#pit-retired">淡坑/退坑</a>
-            </div>
-        </div>
-        <a href="#attr" class="nav-item">屬性</a>
-        <a href="#contact" class="nav-item">聯絡</a>
-    </div>
-</nav>
-    
     <div class="nav-links">
         <a href="#about" class="nav-item">關於我</a>
         <div class="dropdown">
@@ -230,7 +191,7 @@
 </div>
 
 <script>
-    // 1. 自動飄落葉
+    // 背景飄葉
     function leafFall() {
         const container = document.getElementById('leaf-container');
         if(!container) return;
@@ -243,10 +204,11 @@
         container.appendChild(leaf);
         setTimeout(() => leaf.remove(), dur * 1000);
     }
-    setInterval(leafFall, 800);
+    setInterval(leafFall, 900);
 
-    // 2. 點擊噴發特效
+    // 點擊噴葉
     document.addEventListener('click', (e) => {
+        // 如果點擊的是連結，不影響跳轉但依然噴葉子
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
             l.className = 'click-leaf';
