@@ -144,7 +144,7 @@
     <ul style="list-style: none; padding-left: 5px; line-height: 2.2;">
         <li><strong>+ cn</strong> : 禾火 / 秋 / Aki</li>
         <li><strong>+✨</strong> : 10.02 天秤 | INTP</li>
-        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣 (漫畫版)</li>
+        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣 </li>
         <li style="color: var(--color-sumi-green);">└ 完全貓派 特別喜歡傲嬌貓塑</li>
         <li style="color: var(--color-sumi-green); font-weight: bold;">- 不拒同擔，幾乎無雷，歡迎找我聊天!</li>
     </ul>
