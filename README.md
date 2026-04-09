@@ -5,26 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>禾火人 /Aki/</title>
 <style>
-    /* 1. 希臘灰藍調 + 莫蘭迪奶茶色系核心色 */
+    /* 1. 希臘灰藍調 + 莫蘭迪暖奶茶色系核心色 */
     :root {
         --color-greece-bg: #EAEFF2; /* 莫蘭迪極淺灰藍底 */
         --color-greece-white: #FFFFFF; /* 卡片白 */
-        --color-greece-blue: #5B7488; /* 核心：灰調深藍 */
+        --color-greece-blue: #5B7488; /* 核心：莫蘭迪灰調深藍 */
         --color-greece-light-blue: #A3B5C3; /* 核心：灰調淺藍 (點綴) */
         --color-sumi-text: #2B2B2B; 
-        --color-milk-tea: #DDC5A1; /* 莫蘭迪暖奶茶 */
-        --color-light-brown: #CD853F; /* 莫蘭迪咖啡 */
+        --color-milk-tea: #E1CABB; /* 暖奶茶色 (副色調/名字) */
+        --color-light-brown: #CD853F; /* 莫蘭迪咖啡色 (副色調) */
         
-        /* 重點修正：Nav 高度必須比之前更高，才能擋住那兩行字 */
-        --nav-height: 100px; 
+        --nav-height: 80px; /* 希臘灰藍選單卡片高度 */
     }
 
     /* 核心排版與置中 */
     *, *::before, *::after { box-sizing: border-box; }
 
     html {
-        scroll-behavior: smooth; 
-        /* 關鍵修正：捲動 Offset 調更高，防止遮擋 */
+        scroll-behavior: smooth; /* 平滑捲動 */
+        /* 捲動 Offset 微調，確保不擋標題 */
         scroll-padding-top: calc(var(--nav-height) + 15px); 
     }
 
@@ -35,31 +34,31 @@
         font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
         color: var(--color-sumi-text);
         display: flex; flex-direction: column; align-items: center;
-        /* 重點修正：Body padding 開頭預留 Nav 高度，確保不跑版 */
-        padding-top: var(--nav-height);
+        /* 重點修正：不再有置頂 nav，把 padding 調回 0 */
+        padding-top: 0;
         padding-bottom: 80px;
     }
 
-    /* 2. 重點修正：遮擋用實心 Nav 方塊 */
+    /* 2. 重點修正：不再是 fixed，而是自然排版在頂端的希臘灰藍選單卡片 */
     nav {
-        position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-        background-color: var(--color-greece-white); /* 白色背景，確保擋住字 */
+        width: 100%; height: var(--nav-height);
+        background-color: var(--color-greece-white); /* 白色卡片實心遮擋 */
         display: flex; justify-content: center; align-items: center;
-        z-index: 10000; /* 保證在最上層 */
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* 強化立體感範圍框 */
-        border-bottom: 1px solid var(--color-greece-light-blue); /* 希臘灰藍點綴邊框 */
-        overflow: hidden; /* 防止內容跑出去 */
+        z-index: 10000; /* 保證在所有內容（包括那兩行字）之上 */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* 強化立體感範圍框 */
+        border-bottom: 2px solid var(--color-greece-light-blue); /* 希臘灰藍邊框 */
+        position: relative; /* 自然自然自然 */
     }
 
-    /* 希臘灰藍按鈕容器 (Grid 對稱排版) */
+    /* 希臘灰藍按鈕容器 (Grid 排版) */
     .nav-links { 
         display: grid; 
         grid-template-columns: repeat(4, 1fr); 
-        gap: 15px; /* 按鈕間距 */
+        gap: 15px; 
         width: 90%; 
-        max-width: 500px; /* 限制寬度 */
-        height: 100%; /* 撐滿 Nav */
-        align-items: center; /* 按鈕在卡片中置中 */
+        max-width: 500px; 
+        height: 100%; 
+        align-items: center; /* 內容在卡片中置中 */
     }
 
     /* 希臘灰藍實心按鈕 */
@@ -69,7 +68,7 @@
         padding: 12px 0; border-radius: 6px;
         text-align: center; display: block; width: 100%; font-size: 0.95em;
         transition: 0.3s ease;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 按鈕小立體感 */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 按鈕立體感 */
         border: 1px solid var(--color-greece-blue);
     }
     .nav-item:hover { 
@@ -98,8 +97,9 @@
         position: relative; z-index: 5;
     }
 
-    /* 標題與副標題 (莫蘭迪色系) */
+    /* 標題與副標題修正 */
     h1.site-title { 
+        /* 名字改成淺咖啡色/奶茶色 (莫蘭迪色系) */
         color: var(--color-light-brown); text-align: center; 
         letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
         text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
@@ -217,7 +217,7 @@
         <p><strong>屬性:</strong> 羽山秋人重度依賴、特別喜歡傲嬌貓塑。</p>
         <p style="border-left: 3px solid var(--color-milk-tea); padding-left:10px; margin-top: 15px;">
             <strong>屬性:</strong> 雜食黨、官配派、BL >> GB > GL > BG<br>
-            <strong>雷:</strong> 基本無雷 除了激進黑粉(會一直對我輸出的那種)其他都還好。
+            <strong>雷:</strong> 基本無雷 除了激進黑粉(會一直對我輸出的那種) comorbidities 其他都還好。
         </p>
         <p style="color: #888; font-size: 0.9em; margin-top:20px;">└ 電繪人 只畫自己喜歡的 畫的普通所以很少放圖。</p>
     </div>
@@ -292,7 +292,7 @@
     // 點擊噴發特效
     document.addEventListener('click', (e) => {
         if (e.target.closest('.rickroll-btn')) return;
-        if (e.target.closest('nav')) return; /* 如果點擊導覽列也不觸發，增加惡整成功率 */
+        if (e.target.closest('nav')) return; /* 如果點擊選單卡片也不觸發，增加惡整成功率 www */
 
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
