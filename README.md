@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<head>
+    </head>
+    <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     </head>
