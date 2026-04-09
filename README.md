@@ -1,168 +1,167 @@
-<!DOCTYPE html>  <html lang="zh-TW">
-<head>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>禾火人 /Aki/</title>
-<style>
-    /* 核心色調更新：莫蘭迪灰藍調 + 暖奶茶系 */
-    :root {
-        --color-greece-bg: #F2F4F7; /* 帶一點灰度的底色 */
-        --color-greece-white: #FFFFFF;
-        --color-greece-blue: #5B7488; /* 重點修正：灰調深藍 (莫蘭迪色系) */
-        --color-greece-light-blue: #A3B5C3; /* 重點修正：灰調淺藍 (點綴) */
-        --color-sumi-text: #333333; 
-        --color-milk-tea: #DDC5A1; 
-        --color-light-brown: #CD853F; 
-        --nav-height: 70px; 
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>禾火人 /Aki/</title>
+    <style>
+        /* 核心色調更新：莫蘭迪灰藍調 + 暖奶茶系 */
+        :root {
+            --color-greece-bg: #F2F4F7; /* 帶一點灰度的底色 */
+            --color-greece-white: #FFFFFF;
+            --color-greece-blue: #5B7488; /* 重點修正：灰調深藍 (莫蘭迪色系) */
+            --color-greece-light-blue: #A3B5C3; /* 重點修正：灰調淺藍 (點綴) */
+            --color-sumi-text: #333333; 
+            --color-milk-tea: #DDC5A1; 
+            --color-light-brown: #CD853F; 
+            --nav-height: 70px; 
+        }
 
-    /* 1. 全域重置與物理置中 */
-    *, *::before, *::after { box-sizing: border-box; }
+        /* 1. 全域重置與物理置中 */
+        *, *::before, *::after { box-sizing: border-box; }
 
-    html {
-        scroll-behavior: smooth; 
-        scroll-padding-top: calc(var(--nav-height) + 20px); 
-    }
+        html {
+            scroll-behavior: smooth; 
+            scroll-padding-top: calc(var(--nav-height) + 20px); 
+        }
 
-    body {
-        margin: 0; padding: 0; width: 100%;
-        overflow-x: hidden;
-        background-color: var(--color-greece-bg);
-        font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
-        color: var(--color-sumi-text);
-        display: flex; flex-direction: column; align-items: center;
-        padding-top: calc(var(--nav-height) + 40px);
-        padding-bottom: 80px;
-    }
+        body {
+            margin: 0; padding: 0; width: 100%;
+            overflow-x: hidden;
+            background-color: var(--color-greece-bg);
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            color: var(--color-sumi-text);
+            display: flex; flex-direction: column; align-items: center;
+            padding-top: calc(var(--nav-height) + 40px);
+            padding-bottom: 80px;
+        }
 
-    /* 2. 置頂導覽列 (灰調藍版) */
-    nav {
-        position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-        background-color: var(--color-greece-blue);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+        /* 2. 置頂導覽列 (灰調藍版) */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+            background-color: var(--color-greece-blue);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    .nav-links { 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 10px; 
-        width: 90%; 
-        max-width: 550px; 
-    }
+        .nav-links { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+            width: 90%; 
+            max-width: 550px; 
+        }
 
-    .nav-item {
-        color: white; text-decoration: none; font-weight: bold;
-        padding: 10px 0; border-radius: 6px;
-        text-align: center; display: block; width: 100%; font-size: 0.9em;
-        transition: 0.2s;
-    }
-    .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
+        .nav-item {
+            color: white; text-decoration: none; font-weight: bold;
+            padding: 10px 0; border-radius: 6px;
+            text-align: center; display: block; width: 100%; font-size: 0.9em;
+            transition: 0.2s;
+        }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
 
-    /* 3. 楓葉特效容器 */
-    #leaf-container {
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        pointer-events: none; z-index: 9999;
-    }
-    .leaf-fall, .click-leaf { position: fixed; pointer-events: none; z-index: 10000; }
-    @keyframes fall {
-        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.8; }
-        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
+        /* 3. 楓葉特效容器 */
+        #leaf-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999;
+        }
+        .leaf-fall, .click-leaf { position: fixed; pointer-events: none; z-index: 10000; }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
 
-    /* 4. 主容器 */
-    .container {
-        width: 90%; max-width: 800px;
-        position: relative; z-index: 5;
-    }
+        /* 4. 主容器 */
+        .container {
+            width: 90%; max-width: 800px;
+            position: relative; z-index: 5;
+        }
 
-    h1.site-title { 
-        color: var(--color-light-brown); text-align: center; 
-        letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-    }
+        h1.site-title { 
+            color: var(--color-light-brown); text-align: center; 
+            letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
 
-    /* 瑞克搖按鈕方塊 (灰調藍) */
-    .rickroll-btn {
-        display: block; width: fit-content; margin: 0 auto 50px auto;
-        background-color: var(--color-greece-blue); 
-        color: white; text-decoration: none; font-weight: bold; font-size: 1.1em;
-        padding: 12px 25px; border-radius: 50px;
-        box-shadow: 0 4px 10px rgba(91, 116, 136, 0.3);
-        transition: 0.3s ease; text-align: center;
-    }
-    .rickroll-btn:hover {
-        background-color: var(--color-milk-tea); 
-        transform: translateY(-2px) scale(1.03);
-        box-shadow: 0 6px 15px rgba(221, 197, 161, 0.5);
-    }
+        /* 瑞克搖按鈕方塊 (灰調藍) */
+        .rickroll-btn {
+            display: block; width: fit-content; margin: 0 auto 50px auto;
+            background-color: var(--color-greece-blue); 
+            color: white; text-decoration: none; font-weight: bold; font-size: 1.1em;
+            padding: 12px 25px; border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(91, 116, 136, 0.3);
+            transition: 0.3s ease; text-align: center;
+        }
+        .rickroll-btn:hover {
+            background-color: var(--color-milk-tea); 
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 15px rgba(221, 197, 161, 0.5);
+        }
 
-    /* 5. 區塊樣式：卡片雜誌風 */
-    .section-card {
-        background: var(--color-greece-white);
-        border-radius: 12px;
-        padding: 30px;
-        margin-bottom: 35px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.03);
-        border-left: 8px solid var(--color-greece-light-blue); 
-        transition: 0.3s ease;
-    }
-    .section-card:hover {
-        transform: translateY(-5px); 
-        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
+        /* 5. 區塊樣式：卡片雜誌風 */
+        .section-card {
+            background: var(--color-greece-white);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+            border-left: 8px solid var(--color-greece-light-blue); 
+            transition: 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
 
-    h3.section-title { 
-        color: var(--color-greece-blue); font-size: 1.5em; 
-        margin-top: 0; margin-bottom: 25px; 
-        border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px;
-    }
+        h3.section-title { 
+            color: var(--color-greece-blue); font-size: 1.5em; 
+            margin-top: 0; margin-bottom: 25px; 
+            border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px;
+        }
 
-    /* 6. 卡片網格 */
-    .pit-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-    }
+        /* 6. 卡片網格 */
+        .pit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-    .pit-card {
-        background: white;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        transition: 0.4s ease;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .pit-card:hover {
-        transform: scale(1.1) rotate(2deg);
-        box-shadow: 0 12px 20px rgba(0,0,0,0.12);
-        z-index: 10;
-        border-color: var(--color-light-brown);
-    }
-    .pit-card strong { color: var(--color-greece-blue); font-size: 1.1em; margin-bottom: 5px; }
-    .pit-card span { color: var(--color-sumi-text); font-size: 0.9em; display: block; margin-top: 2px; }
-    
-    .pit-card.deep-pit { border-bottom: 4px solid var(--color-greece-light-blue); }
+        .pit-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: 0.4s ease;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .pit-card:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+            z-index: 10;
+            border-color: var(--color-light-brown);
+        }
+        .pit-card strong { color: var(--color-greece-blue); font-size: 1.1em; margin-bottom: 5px; }
+        .pit-card span { color: var(--color-sumi-text); font-size: 0.9em; display: block; margin-top: 2px; }
+        
+        .pit-card.deep-pit { border-bottom: 4px solid var(--color-greece-light-blue); }
 
-    .retired-list {
-        line-height: 2.2; color: #777;
-        font-size: 0.95em;
-        column-count: 2; 
-        column-gap: 30px;
-        border-top: 1px solid #eee; padding-top: 15px;
-    }
-    .retired-list span { color: #aaa; font-size: 0.9em; display: block; column-span: all; margin-top: 10px; }
+        .retired-list {
+            line-height: 2.2; color: #777;
+            font-size: 0.95em;
+            column-count: 2; 
+            column-gap: 30px;
+            border-top: 1px solid #eee; padding-top: 15px;
+        }
+        .retired-list span { color: #aaa; font-size: 0.9em; display: block; column-span: all; margin-top: 10px; }
 
-    a.contact-link { color: var(--color-light-brown); font-weight: bold; margin-right: 15px; text-decoration: none; }
-    a.contact-link:hover { color: var(--color-greece-blue); text-decoration: underline; }
+        a.contact-link { color: var(--color-light-brown); font-weight: bold; margin-right: 15px; text-decoration: none; }
+        a.contact-link:hover { color: var(--color-greece-blue); text-decoration: underline; }
 
-</style>
+    </style>
 </head>
 <body>
 
