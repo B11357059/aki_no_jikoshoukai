@@ -5,46 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>禾火人 /Aki/</title>
 <style>
+    /* 核心色調：希臘灰藍與秋日奶茶 */
     :root {
-        --color-greece-bg: #EAEFF2;
-        --color-greece-white: #FFFFFF;
-        --color-greece-blue: #5B7488;
-        --color-greece-light-blue: #A3B5C3;
+        --color-greece-bg: #EAEFF2; 
+        --color-greece-white: rgba(255, 255, 255, 0.95); /* 半透明柔霧感 */
+        --color-greece-blue: #5B7488; 
+        --color-greece-light-blue: #A3B5C3; 
         --color-sumi-text: #2B2B2B; 
-        --color-milk-tea: #E1CABB;
-        --color-light-brown: #CD853F;
-        --nav-height: 80px; /* 回到原本的高度 */
+        --color-milk-tea: #E1CABB; 
+        --color-light-brown: #CD853F; 
+        
+        --nav-height: 70px; /* 置頂選單高度 */
     }
 
     *, *::before, *::after { box-sizing: border-box; }
 
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: calc(var(--nav-height) + 15px); 
+        /* 避免置頂選單擋住標題內容 */
+        scroll-padding-top: calc(var(--nav-height) + 20px); 
     }
 
     body {
         margin: 0; padding: 0; width: 100%;
+        overflow-x: hidden;
         background-color: var(--color-greece-bg);
         font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        color: var(--color-sumi-text);
         display: flex; flex-direction: column; align-items: center;
-        padding-top: 0; padding-bottom: 80px;
+        /* 為置頂選單預留頂部空間 */
+        padding-top: var(--nav-height); 
+        padding-bottom: 80px;
     }
 
-    /* 這裡改回橫排的一排按鈕 */
+    /* --- 回歸正常置頂版本 --- */
     nav {
-        width: 100%; height: var(--nav-height);
+        position: fixed; /* 固定在頂部 */
+        top: 0; left: 0; width: 100%; height: var(--nav-height);
         background-color: var(--color-greece-white);
+        backdrop-filter: blur(8px); /* 磨砂玻璃效果，超好看 */
         display: flex; justify-content: center; align-items: center;
         z-index: 10000;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-        border-bottom: 2px solid var(--color-greece-light-blue);
-        position: relative;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(163, 181, 195, 0.3);
     }
 
+    /* 一排四個的經典排版 */
     .nav-links { 
         display: grid; 
-        grid-template-columns: repeat(4, 1fr); /* 這裡改回橫排 4 個 */
+        grid-template-columns: repeat(4, 1fr); 
         gap: 12px;
         width: 90%;
         max-width: 500px;
@@ -53,31 +62,85 @@
     .nav-item {
         color: white; text-decoration: none; font-weight: bold;
         background-color: var(--color-greece-blue);
-        padding: 10px 0; border-radius: 6px;
+        padding: 10px 0; border-radius: 50px; /* 圓角膠囊型按鈕 */
         text-align: center; display: block; font-size: 0.9em;
-        transition: 0.3s ease;
+        transition: all 0.3s ease;
+        border: 1px solid var(--color-greece-blue);
     }
     .nav-item:hover { 
         background-color: var(--color-milk-tea);
         color: var(--color-greece-blue);
         transform: translateY(-2px);
+        border-color: var(--color-milk-tea);
+        box-shadow: 0 4px 10px rgba(225, 202, 187, 0.5);
     }
 
-    /* 下方內容維持原樣... (略) */
-    #leaf-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
-    .leaf-fall { position: fixed; pointer-events: none; }
-    @keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-    .container { width: 90%; max-width: 800px; position: relative; z-index: 5; }
-    h1.site-title { color: var(--color-light-brown); text-align: center; letter-spacing: 5px; margin-top: 40px; font-size: 2.8em; }
-    .rickroll-btn { display: block; width: fit-content; margin: 0 auto 50px auto; background-color: var(--color-greece-blue); color: white; text-decoration: none; font-weight: bold; padding: 12px 25px; border-radius: 50px; }
-    .section-card { background: var(--color-greece-white); border-radius: 12px; padding: 30px; margin-bottom: 35px; border-left: 8px solid var(--color-greece-light-blue); }
-    h3.section-title { color: var(--color-greece-blue); border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px; }
-    .pit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-    .pit-card { background: white; border: 1px solid #eee; border-radius: 8px; padding: 15px; text-align: center; }
+    /* 楓葉特效 */
+    #leaf-container {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none; z-index: 9999;
+    }
+    .leaf-fall, .click-leaf { position: fixed; pointer-events: none; }
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .container {
+        width: 90%; max-width: 800px;
+        position: relative; z-index: 5;
+    }
+
+    h1.site-title { 
+        color: var(--color-light-brown); text-align: center; 
+        letter-spacing: 5px; margin: 40px 0 10px 0; font-size: 2.8em; 
+    }
+
+    .rickroll-btn {
+        display: block; width: fit-content; margin: 0 auto 50px auto;
+        background-color: var(--color-greece-blue); 
+        color: white; text-decoration: none; font-weight: bold;
+        padding: 12px 25px; border-radius: 50px;
+        transition: 0.3s ease;
+    }
+    .rickroll-btn:hover {
+        background-color: var(--color-milk-tea); 
+        transform: scale(1.05);
+        color: var(--color-greece-blue);
+    }
+
+    .section-card {
+        background: white; border-radius: 12px; padding: 30px;
+        margin-bottom: 35px; box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+        border-left: 8px solid var(--color-greece-light-blue);
+    }
+
+    h3.section-title { 
+        color: var(--color-greece-blue); border-bottom: 2px solid var(--color-milk-tea);
+        padding-bottom: 10px; margin-top: 0;
+    }
+
+    .pit-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+        gap: 20px;
+    }
+
+    .pit-card {
+        background: white; border: 1px solid #eee; border-radius: 8px;
+        padding: 15px; text-align: center; transition: 0.4s ease;
+    }
+    .pit-card:hover { transform: scale(1.1) rotate(2deg); border-color: var(--color-light-brown); }
+
+    .retired-list { line-height: 2.2; color: #777; column-count: 2; border-top: 1px solid #eee; padding-top: 15px; }
+
+    a.contact-link { color: var(--color-light-brown); font-weight: bold; text-decoration: none; margin-right: 15px; }
 </style>
 </head>
 <body>
+
 <div id="leaf-container"></div>
+
 <nav>
     <div class="nav-links">
         <a href="#about" class="nav-item">關於我</a>
@@ -86,14 +149,68 @@
         <a href="#contact" class="nav-item">聯絡</a>
     </div>
 </nav>
+
 <div class="container">
     <h1 class="site-title">禾火人</h1>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="rickroll-btn">都點進來了不看看我嗎>ouo/</a>
+    
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="rickroll-btn">
+        都點進來了不看看我嗎>ouo/
+    </a>
+    
     <div id="about" class="section-card">
         <h3 class="section-title">I. 🍂 個人檔案</h3>
         <p style="color: var(--color-light-brown); font-weight:bold;">CN： 禾火 / 秋 / Aki</p>
         <p>INTP、10/02、天秤座♎</p>
+        <p><strong>屬性:</strong> 羽山秋人重度依賴、傲嬌貓塑。</p>
     </div>
+
+    <div id="pit" class="section-card">
+        <h3 class="section-title">II. 🍂 坑</h3>
+        <div class="pit-grid">
+            <div class="pit-card"><strong>玩偶遊戲</strong><span>羽山秋人</span></div>
+            <div class="pit-card"><strong>極惡</strong><span>親王</span></div>
+            <div class="pit-card"><strong>Alien Stage</strong><span>Till</span></div>
+            <div class="pit-card"><strong>TADC</strong><span>Jax</span></div>
+        </div>
     </div>
+
+    <div id="other" class="section-card">
+        <h3 class="section-title">III. 🍂 其他</h3>
+        <p>淘寶代購可以找我本人 ouo</p>
+    </div>
+
+    <div id="contact" class="section-card">
+        <h3 class="section-title">IV. 🍂 聯絡我</h3>
+        <a href="https://www.facebook.com/kowai.yu/" target="_blank" class="contact-link">FB</a>
+        <a href="https://www.instagram.com/grassss_yuuuu/" target="_blank" class="contact-link">IG</a>
+    </div>
+</div>
+
+<script>
+    setInterval(() => {
+        const container = document.getElementById('leaf-container');
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf-fall';
+        leaf.innerText = ['🍁', '🍂', '🍃'][Math.floor(Math.random()*3)];
+        leaf.style.left = Math.random() * 100 + 'vw';
+        const dur = Math.random() * 5 + 5;
+        leaf.style.animation = `fall ${dur}s linear forwards`;
+        container.appendChild(leaf);
+        setTimeout(() => leaf.remove(), dur * 1000);
+    }, 900);
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.nav-item') || e.target.closest('.rickroll-btn')) return;
+        for(let i=0; i<6; i++) {
+            const l = document.createElement('div');
+            l.className = 'click-leaf'; l.innerText = '🍂';
+            l.style.left = e.clientX + 'px'; l.style.top = e.clientY + 'px';
+            const tx = (Math.random()-0.5)*200, ty = (Math.random()-0.5)*200;
+            l.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }], { duration: 800 });
+            document.body.appendChild(l);
+            setTimeout(() => l.remove(), 800);
+        }
+    });
+</script>
 </body>
 </html>
