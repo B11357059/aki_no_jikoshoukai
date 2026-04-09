@@ -1,8 +1,6 @@
-<head>
-   
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
-
+<head>
     </head>
 <body>
     <meta charset="UTF-8">
