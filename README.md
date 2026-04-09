@@ -1,167 +1,194 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>禾火人 /Aki/</title>
-    <style>
-        /* 核心色調更新：莫蘭迪灰藍調 + 暖奶茶系 */
-        :root {
-            --color-greece-bg: #F2F4F7; /* 帶一點灰度的底色 */
-            --color-greece-white: #FFFFFF;
-            --color-greece-blue: #5B7488; /* 重點修正：灰調深藍 (莫蘭迪色系) */
-            --color-greece-light-blue: #A3B5C3; /* 重點修正：灰調淺藍 (點綴) */
-            --color-sumi-text: #333333; 
-            --color-milk-tea: #DDC5A1; 
-            --color-light-brown: #CD853F; 
-            --nav-height: 70px; 
-        }
-
-        /* 1. 全域重置與物理置中 */
-        *, *::before, *::after { box-sizing: border-box; }
-
-        html {
-            scroll-behavior: smooth; 
-            scroll-padding-top: calc(var(--nav-height) + 20px); 
-        }
-
-        body {
-            margin: 0; padding: 0; width: 100%;
-            overflow-x: hidden;
-            background-color: var(--color-greece-bg);
-            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
-            color: var(--color-sumi-text);
-            display: flex; flex-direction: column; align-items: center;
-            padding-top: calc(var(--nav-height) + 40px);
-            padding-bottom: 80px;
-        }
-
-        /* 2. 置頂導覽列 (灰調藍版) */
-        nav {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-            background-color: var(--color-greece-blue);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-links { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
-            width: 90%; 
-            max-width: 550px; 
-        }
-
-        .nav-item {
-            color: white; text-decoration: none; font-weight: bold;
-            padding: 10px 0; border-radius: 6px;
-            text-align: center; display: block; width: 100%; font-size: 0.9em;
-            transition: 0.2s;
-        }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
-
-        /* 3. 楓葉特效容器 */
-        #leaf-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 9999;
-        }
-        .leaf-fall, .click-leaf { position: fixed; pointer-events: none; z-index: 10000; }
-        @keyframes fall {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* 4. 主容器 */
-        .container {
-            width: 90%; max-width: 800px;
-            position: relative; z-index: 5;
-        }
-
-        h1.site-title { 
-            color: var(--color-light-brown); text-align: center; 
-            letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-        }
-
-        /* 瑞克搖按鈕方塊 (灰調藍) */
-        .rickroll-btn {
-            display: block; width: fit-content; margin: 0 auto 50px auto;
-            background-color: var(--color-greece-blue); 
-            color: white; text-decoration: none; font-weight: bold; font-size: 1.1em;
-            padding: 12px 25px; border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(91, 116, 136, 0.3);
-            transition: 0.3s ease; text-align: center;
-        }
-        .rickroll-btn:hover {
-            background-color: var(--color-milk-tea); 
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 15px rgba(221, 197, 161, 0.5);
-        }
-
-        /* 5. 區塊樣式：卡片雜誌風 */
-        .section-card {
-            background: var(--color-greece-white);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 35px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
-            border-left: 8px solid var(--color-greece-light-blue); 
-            transition: 0.3s ease;
-        }
-        .section-card:hover {
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        h3.section-title { 
-            color: var(--color-greece-blue); font-size: 1.5em; 
-            margin-top: 0; margin-bottom: 25px; 
-            border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px;
-        }
-
-        /* 6. 卡片網格 */
-        .pit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .pit-card {
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: 0.4s ease;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .pit-card:hover {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
-            z-index: 10;
-            border-color: var(--color-light-brown);
-        }
-        .pit-card strong { color: var(--color-greece-blue); font-size: 1.1em; margin-bottom: 5px; }
-        .pit-card span { color: var(--color-sumi-text); font-size: 0.9em; display: block; margin-top: 2px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>禾火人 /Aki/</title>
+<style>
+    /* 1. 希臘灰藍調 + 莫蘭迪奶茶色系核心色 */
+    :root {
+        --color-greece-bg: #EAEFF2; /* 莫蘭迪極淺灰藍底 */
+        --color-greece-white: #FFFFFF; /* 卡片白 */
+        --color-greece-blue: #5B7488; /* 核心：灰調深藍 */
+        --color-greece-light-blue: #A3B5C3; /* 核心：灰調淺藍 (點綴) */
+        --color-sumi-text: #2B2B2B; 
+        --color-milk-tea: #DDC5A1; /* 莫蘭迪暖奶茶 */
+        --color-light-brown: #CD853F; /* 莫蘭迪咖啡 */
         
-        .pit-card.deep-pit { border-bottom: 4px solid var(--color-greece-light-blue); }
+        /* 重點修正：Nav 高度必須比之前更高，才能擋住那兩行字 */
+        --nav-height: 100px; 
+    }
 
-        .retired-list {
-            line-height: 2.2; color: #777;
-            font-size: 0.95em;
-            column-count: 2; 
-            column-gap: 30px;
-            border-top: 1px solid #eee; padding-top: 15px;
-        }
-        .retired-list span { color: #aaa; font-size: 0.9em; display: block; column-span: all; margin-top: 10px; }
+    /* 核心排版與置中 */
+    *, *::before, *::after { box-sizing: border-box; }
 
-        a.contact-link { color: var(--color-light-brown); font-weight: bold; margin-right: 15px; text-decoration: none; }
-        a.contact-link:hover { color: var(--color-greece-blue); text-decoration: underline; }
+    html {
+        scroll-behavior: smooth; 
+        /* 關鍵修正：捲動 Offset 調更高，防止遮擋 */
+        scroll-padding-top: calc(var(--nav-height) + 15px); 
+    }
 
-    </style>
+    body {
+        margin: 0; padding: 0; width: 100%;
+        overflow-x: hidden;
+        background-color: var(--color-greece-bg);
+        font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        color: var(--color-sumi-text);
+        display: flex; flex-direction: column; align-items: center;
+        /* 重點修正：Body padding 開頭預留 Nav 高度，確保不跑版 */
+        padding-top: var(--nav-height);
+        padding-bottom: 80px;
+    }
+
+    /* 2. 重點修正：遮擋用實心 Nav 方塊 */
+    nav {
+        position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+        background-color: var(--color-greece-white); /* 白色背景，確保擋住字 */
+        display: flex; justify-content: center; align-items: center;
+        z-index: 10000; /* 保證在最上層 */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* 強化立體感範圍框 */
+        border-bottom: 1px solid var(--color-greece-light-blue); /* 希臘灰藍點綴邊框 */
+        overflow: hidden; /* 防止內容跑出去 */
+    }
+
+    /* 希臘灰藍按鈕容器 (Grid 對稱排版) */
+    .nav-links { 
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 15px; /* 按鈕間距 */
+        width: 90%; 
+        max-width: 500px; /* 限制寬度 */
+        height: 100%; /* 撐滿 Nav */
+        align-items: center; /* 按鈕在卡片中置中 */
+    }
+
+    /* 希臘灰藍實心按鈕 */
+    .nav-item {
+        color: white; text-decoration: none; font-weight: bold;
+        background-color: var(--color-greece-blue); /* 實心灰藍 */
+        padding: 12px 0; border-radius: 6px;
+        text-align: center; display: block; width: 100%; font-size: 0.95em;
+        transition: 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 按鈕小立體感 */
+        border: 1px solid var(--color-greece-blue);
+    }
+    .nav-item:hover { 
+        background-color: var(--color-milk-tea); /* 懸停變莫蘭迪奶茶 */
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(221, 197, 161, 0.4);
+        color: var(--color-greece-blue);
+        border-color: var(--color-milk-tea);
+    }
+
+    /* 3. 楓葉特效容器 (在 Nav 之下) */
+    #leaf-container {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none; z-index: 9999;
+    }
+    .leaf-fall, .click-leaf { position: fixed; pointer-events: none; z-index: 10000; }
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* 4. 主容器 (希臘極簡風) */
+    .container {
+        width: 90%; max-width: 800px;
+        position: relative; z-index: 5;
+    }
+
+    /* 標題與副標題 (莫蘭迪色系) */
+    h1.site-title { 
+        color: var(--color-light-brown); text-align: center; 
+        letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    /* 瑞克搖按鈕方塊 (莫蘭迪灰藍色) */
+    .rickroll-btn {
+        display: block; width: fit-content; margin: 0 auto 50px auto;
+        background-color: var(--color-greece-blue); 
+        color: white; text-decoration: none; font-weight: bold; font-size: 1.1em;
+        padding: 12px 25px; border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(91, 116, 136, 0.3);
+        transition: 0.3s ease; text-align: center;
+    }
+    .rickroll-btn:hover {
+        background-color: var(--color-milk-tea); 
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 15px rgba(221, 197, 161, 0.5);
+    }
+
+    /* 5. 區塊樣式：卡片雜誌風核心 */
+    .section-card {
+        background: var(--color-greece-white);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 35px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+        border-left: 8px solid var(--color-greece-light-blue); /* 希臘灰藍邊框 */
+        transition: 0.3s ease;
+    }
+    .section-card:hover {
+        transform: translateY(-5px); /* 懸停稍微浮起 */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h3.section-title { 
+        color: var(--color-greece-blue); font-size: 1.5em; 
+        margin-top: 0; margin-bottom: 25px; 
+        border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px;
+    }
+
+    /* 6. 卡片網格：【卡片雜誌風】深坑區 */
+    .pit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* 自動填滿網格 */
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    /* 【拍立得卡片】樣式 */
+    .pit-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: 0.4s ease; /* 卡片懸停動畫核心 */
+        position: relative;
+        overflow: hidden;
+        display: flex; flex-direction: column; justify-content: center; align-items: center; /* 讓內容置中 */
+    }
+    .pit-card:hover {
+        transform: scale(1.1) rotate(2deg); /* 移上去放大並旋轉 */
+        box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        z-index: 10;
+        border-color: var(--color-light-brown);
+    }
+    .pit-card strong { color: var(--color-greece-blue); font-size: 1.1em; margin-bottom: 5px; }
+    .pit-card span { color: var(--color-sumi-text); font-size: 0.9em; display: block; margin-top: 2px; }
+    
+    /* 深坑卡片特殊點綴 (希臘藍) */
+    .pit-card.deep-pit { border-bottom: 4px solid var(--color-greece-light-blue); }
+
+    /* 淡坑列表樣式 */
+    .retired-list {
+        line-height: 2.2; color: #777;
+        font-size: 0.95em;
+        column-count: 2; /* 兩行顯示 */
+        column-gap: 30px;
+        border-top: 1px solid #eee; padding-top: 15px;
+    }
+    .retired-list span { color: #aaa; font-size: 0.9em; display: block; column-span: all; margin-top: 10px; } /* 特別註記跨行顯示 */
+
+    /* 聯絡區塊 */
+    a.contact-link { color: var(--color-light-brown); font-weight: bold; margin-right: 15px; text-decoration: none; }
+    a.contact-link:hover { color: var(--color-greece-blue); text-decoration: underline; }
+
+</style>
 </head>
 <body>
 
@@ -209,7 +236,6 @@
                     知道為什麼我叫Aki了吧!
                 </span>
             </div>
-
             <div class="pit-card deep-pit"><strong>極惡</strong><span>親王</span></div>
             <div class="pit-card deep-pit"><strong>Alien Stage</strong><span>Till</span></div>
             <div class="pit-card deep-pit"><strong>TADC</strong><span>Jax</span></div>
@@ -248,6 +274,7 @@
 </div>
 
 <script>
+    // 背景飄楓葉
     setInterval(() => {
         const container = document.getElementById('leaf-container');
         if(!container) return;
@@ -262,8 +289,11 @@
         setTimeout(() => leaf.remove(), dur * 1000);
     }, 900);
 
+    // 點擊噴發特效
     document.addEventListener('click', (e) => {
         if (e.target.closest('.rickroll-btn')) return;
+        if (e.target.closest('nav')) return; /* 如果點擊導覽列也不觸發，增加惡整成功率 */
+
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
             l.className = 'click-leaf'; l.innerText = '🍂';
