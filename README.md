@@ -3,72 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>禾火人 /ouo/</title>
+<title>禾火人 /Aki/</title>
 <style>
+    /* 核心色調更新：莫蘭迪灰藍調 + 暖奶茶系 */
     :root {
-        --color-autumn-bg: #F7F3E8; 
-        --color-sumi-text: #2B2B2B; 
-        --color-sumi-blue: #3A4F6A; 
-        --color-sumi-green: #4F6353; 
-        --color-sky-blue: #64A1C8;  
-        --color-leaf-orange: #D48166; 
+        --color-greece-bg: #F2F4F7; /* 帶一點灰度的底色 */
+        --color-greece-white: #FFFFFF;
+        --color-greece-blue: #5B7488; /* 重點修正：灰調深藍 (莫蘭迪色系) */
+        --color-greece-light-blue: #A3B5C3; /* 重點修正：灰調淺藍 (點綴) */
+        --color-sumi-text: #333333; 
+        --color-milk-tea: #DDC5A1; 
+        --color-light-brown: #CD853F; 
         --nav-height: 70px; 
     }
 
-    /* 關鍵修正 2：設定網頁捲動偏移量，防止置中遮擋 */
-    html {
-        scroll-behavior: smooth; /* 平滑捲動 */
-        /* 下面這行是重點：讓跳轉後的位置自動下移，空出 Nav 的高度 */
-        scroll-padding-top: calc(var(--nav-height) + 15px); 
-    }
-
-    /* 核心重置：防止橫向溢出 */
+    /* 1. 全域重置與物理置中 */
     *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+        scroll-behavior: smooth; 
+        scroll-padding-top: calc(var(--nav-height) + 20px); 
+    }
 
     body {
         margin: 0; padding: 0; width: 100%;
         overflow-x: hidden;
-        background-color: var(--color-autumn-bg);
+        background-color: var(--color-greece-bg);
         font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        color: var(--color-sumi-text);
         display: flex; flex-direction: column; align-items: center;
         padding-top: calc(var(--nav-height) + 40px);
         padding-bottom: 80px;
     }
 
-    /* 1. 導覽列 */
+    /* 2. 置頂導覽列 (灰調藍版) */
     nav {
         position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
-        background-color: var(--color-sumi-blue);
+        background-color: var(--color-greece-blue);
         display: flex; justify-content: center; align-items: center;
-        z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    .nav-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 95%; max-width: 550px; }
-    .nav-item, .dropdown-trigger { color: white; text-decoration: none; font-weight: bold; padding: 10px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; text-align: center; display: block; width: 100%; font-size: 0.9em; cursor: pointer; }
 
-    /* 下拉選單 */
-    .dropdown { position: relative; width: 100%; }
-    .dropdown-content { display: none; position: absolute; background: white; min-width: 130px; top: 100%; left: 50%; transform: translateX(-50%); border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-    .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a { color: var(--color-sumi-blue); padding: 12px; display: block; text-decoration: none; font-size: 0.85em; font-weight: bold; text-align: center; }
+    .nav-links { 
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 10px; 
+        width: 90%; 
+        max-width: 550px; 
+    }
 
-    /* 2. 楓葉特效 */
-    #leaf-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
+    .nav-item {
+        color: white; text-decoration: none; font-weight: bold;
+        padding: 10px 0; border-radius: 6px;
+        text-align: center; display: block; width: 100%; font-size: 0.9em;
+        transition: 0.2s;
+    }
+    .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
+
+    /* 3. 楓葉特效容器 */
+    #leaf-container {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none; z-index: 9999;
+    }
     .leaf-fall, .click-leaf { position: fixed; pointer-events: none; z-index: 10000; }
-    @keyframes fall { 0% { transform: translateY(-50px); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
 
-    /* 3. 主內容容器 */
-    .container { width: 90%; max-width: 680px; background: #fff; padding: 50px 30px; margin: 0 auto; border-radius: 12px; border-top: 12px solid var(--color-sumi-blue); box-shadow: 0 15px 35px rgba(0,0,0,0.05); position: relative; z-index: 5; }
-    h1.site-title { color: var(--color-sumi-blue); text-align: center; letter-spacing: 6px; margin-bottom: 8px; font-size: 2.2em; }
-    .site-subtitle { text-align: center; color: var(--color-sumi-green); margin-bottom: 40px; display: block; }
+    /* 4. 主容器 */
+    .container {
+        width: 90%; max-width: 800px;
+        position: relative; z-index: 5;
+    }
 
-    /* 瑞克搖連結 */
-    .greeting-box { border: 2px solid var(--color-leaf-orange); border-radius: 50px; padding: 12px 30px; text-align: center; cursor: pointer; background: white; }
-    .greeting-box span { color: var(--color-leaf-orange); font-weight: bold; }
+    h1.site-title { 
+        color: var(--color-light-brown); text-align: center; 
+        letter-spacing: 5px; margin-bottom: 5px; font-size: 2.8em; 
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
 
-    /* 文字內容樣式 */
-    h3.section-title { color: var(--color-sumi-blue); border-left: 6px solid var(--color-sky-blue); padding-left: 15px; margin-top: 45px; margin-bottom: 20px; }
-    .pit-category { border-left: 3px solid var(--color-sumi-green); padding-left: 18px; margin-bottom: 28px; }
-    .pit-inline-list { line-height: 1.9; color: var(--color-sumi-text); }
+    /* 瑞克搖按鈕方塊 (灰調藍) */
+    .rickroll-btn {
+        display: block; width: fit-content; margin: 0 auto 50px auto;
+        background-color: var(--color-greece-blue); 
+        color: white; text-decoration: none; font-weight: bold; font-size: 1.1em;
+        padding: 12px 25px; border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(91, 116, 136, 0.3);
+        transition: 0.3s ease; text-align: center;
+    }
+    .rickroll-btn:hover {
+        background-color: var(--color-milk-tea); 
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 15px rgba(221, 197, 161, 0.5);
+    }
+
+    /* 5. 區塊樣式：卡片雜誌風 */
+    .section-card {
+        background: var(--color-greece-white);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 35px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+        border-left: 8px solid var(--color-greece-light-blue); 
+        transition: 0.3s ease;
+    }
+    .section-card:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h3.section-title { 
+        color: var(--color-greece-blue); font-size: 1.5em; 
+        margin-top: 0; margin-bottom: 25px; 
+        border-bottom: 2px solid var(--color-milk-tea); padding-bottom: 10px;
+    }
+
+    /* 6. 卡片網格 */
+    .pit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .pit-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: 0.4s ease;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .pit-card:hover {
+        transform: scale(1.1) rotate(2deg);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        z-index: 10;
+        border-color: var(--color-light-brown);
+    }
+    .pit-card strong { color: var(--color-greece-blue); font-size: 1.1em; margin-bottom: 5px; }
+    .pit-card span { color: var(--color-sumi-text); font-size: 0.9em; display: block; margin-top: 2px; }
+    
+    .pit-card.deep-pit { border-bottom: 4px solid var(--color-greece-light-blue); }
+
+    .retired-list {
+        line-height: 2.2; color: #777;
+        font-size: 0.95em;
+        column-count: 2; 
+        column-gap: 30px;
+        border-top: 1px solid #eee; padding-top: 15px;
+    }
+    .retired-list span { color: #aaa; font-size: 0.9em; display: block; column-span: all; margin-top: 10px; }
+
+    a.contact-link { color: var(--color-light-brown); font-weight: bold; margin-right: 15px; text-decoration: none; }
+    a.contact-link:hover { color: var(--color-greece-blue); text-decoration: underline; }
+
 </style>
 </head>
 <body>
@@ -78,71 +170,100 @@
 <nav>
     <div class="nav-links">
         <a href="#about" class="nav-item">關於我</a>
-        <div class="dropdown">
-            <span class="dropdown-trigger">坑 ▾</span>
-            <div class="dropdown-content">
-                <a href="#pit-anime">動漫/小說</a>
-                <a href="#pit-game">遊戲/VT</a>
-                <a href="#pit-retired">淡坑/退坑</a>
-            </div>
-        </div>
-        <a href="#attr" class="nav-item">屬性</a>
+        <a href="#pit" class="nav-item">坑</a>
+        <a href="#other" class="nav-item">其他</a>
         <a href="#contact" class="nav-item">聯絡</a>
     </div>
 </nav>
 
 <div class="container">
     <h1 class="site-title">禾火人</h1>
-    <span class="site-subtitle">都點進來了不看看我嗎ouo</span>
     
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" style="text-decoration:none;">
-        <div class="greeting-box"><span>「相逢即是有緣。」</span></div>
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="rickroll-btn">
+        都點進來了不看看我嗎>ouo/
     </a>
-
-    <h3 id="about" class="section-title">Ⅰ.🍂 關於我 🍂</h3>
-    <ul style="list-style: none; padding-left: 5px; line-height: 2.2;">
-        <li><strong>+ cn</strong> : 禾火 / 秋 / Aki</li>
-        <li><strong>+✨</strong> : 10.02 天秤 | INTP</li>
-        <li><strong>+✨</strong> : 羽山秋人重度依賴 🍣</li>
-    </ul>
-
-    <h3 id="pit" class="section-title">Ⅱ. 坑</h3>
-    <div id="pit-anime" class="pit-category">
-        <h4>◈ 深坑 - 動漫/小說</h4>
-        <div class="pit-inline-list">《玩偶遊戲》羽山秋人、《全知讀者視角》金獨子、墨家三部曲。</div>
-    </div>
-    <div id="pit-game" class="pit-category">
-        <h4>◈ 深坑 - 遊戲/VT</h4>
-        <div class="pit-inline-list">《新世界狂歡》奧利文、《星鐵》。</div>
-    </div>
-    <div id="pit-retired" class="pit-category">
-        <h4>◈ 淡坑 / 退坑</h4>
-        <div class="pit-inline-list" style="color:#888;">《時光代理人》、《世界計畫》。</div>
+    
+    <div id="about" class="section-card">
+        <h3 class="section-title">I. 🍂 個人檔案</h3>
+        <p style="color: var(--color-light-brown); font-weight:bold; font-size:1.1em; margin-top:0;">CN： 禾火 / 秋 / Aki</p>
+        <p>INTP、10/02、天秤座♎</p>
+        <p><strong>屬性:</strong> 羽山秋人重度依賴、特別喜歡傲嬌貓塑。</p>
+        <p style="border-left: 3px solid var(--color-milk-tea); padding-left:10px; margin-top: 15px;">
+            <strong>屬性:</strong> 雜食黨、官配派、BL >> GB > GL > BG<br>
+            <strong>雷:</strong> 基本無雷 除了激進黑粉(會一直對我輸出的那種)其他都還好。
+        </p>
+        <p style="color: #888; font-size: 0.9em; margin-top:20px;">└ 電繪人 只畫自己喜歡的 畫的普通所以很少放圖。</p>
     </div>
 
-    <h3 id="attr" class="section-title">Ⅲ. 屬性</h3>
-    <p><strong>+ ✨</strong> : 雜食黨 但是官配 > 所有</p>
-    <p><strong>+ ✨</strong> : <span style="color:var(--color-sumi-blue); font-weight:bold;">BL >> GB</span></p>
+    <div id="pit" class="section-card">
+        <h3 class="section-title">II. 🍂 坑</h3>
+        
+        <h4>◈ 【深坑區】</h4>
+        <div class="pit-grid">
+            <div class="pit-card deep-pit">
+                <strong style="display: block; margin-bottom: 5px;">
+                    <span style="color: var(--color-light-brown);">✨✨✨</span>玩偶遊戲
+                </strong>
+                <span>羽山秋人</span>
+                <span style="font-size: 0.8em; color: #aaa; margin-top: 8px; line-height: 1.4;">
+                    知道為什麼我叫Aki了吧!
+                </span>
+            </div>
 
-    <h3 id="contact" class="section-title">Ⅳ. 聯絡 </h3>
-    <p><a href="https://www.facebook.com/kowai.yu/" target="_blank">Facebook</a> / <a href="https://www.instagram.com/grassss_yuuuu/" target="_blank">Instagram</a></p>
+            <div class="pit-card deep-pit"><strong>極惡</strong><span>親王</span></div>
+            <div class="pit-card deep-pit"><strong>Alien Stage</strong><span>Till</span></div>
+            <div class="pit-card deep-pit"><strong>TADC</strong><span>Jax</span></div>
+            <div class="pit-card deep-pit"><strong>文字化化</strong><span>爬爬</span></div>
+            <div class="pit-card deep-pit"><strong>失憶投捕</strong><span>圭</span></div>
+            <div class="pit-card deep-pit"><strong>全知讀者視角</strong><span>獨子</span></div>
+            <div class="pit-card deep-pit"><strong>新世界狂歡</strong><span>奧、八 > 副團</span></div>
+            <div class="pit-card deep-pit"><strong>輝耀姬</strong><span>輝夜 X 彩P</span></div>
+            <div class="pit-card deep-pit"><strong>Shoto</strong></div>
+        </div>
+
+        <h4 style="margin-top:40px;">◈ 【淡坑】</h4>
+        <div class="retired-list">
+            《墨家三部曲》、來自新世界、時光代理人、咒術、鏈鋸、世界計畫 日服、絕區零、原神、NIJI EN、FPS類、光遇、一大堆乙遊(目前全退坑了)...
+            <span>(還有一些其他沒想起來的也許之後會補上...)</span>
+        </div>
+    </div>
+
+    <div id="other" class="section-card">
+        <h3 class="section-title">III. 🍂 其他</h3>
+        <p style="color: var(--color-greece-blue); font-weight:bold;">不是在找代購 就是在開團的路上。</p>
+        <p>淘寶代購可以找我本人 ouo</p>
+        <p style="margin-top:20px; border-top: 1px solid #eee; padding-top:15px; color: var(--color-light-brown);">年底前考慮要買平板還是電繪板😔</p>
+    </div>
+
+    <div id="contact" class="section-card">
+        <h3 class="section-title">IV. 🍂 可以找到我的地方</h3>
+        <div style="padding-left:10px; margin-top: 15px;">
+            社群連結： 
+            <a href="https://www.facebook.com/kowai.yu/" target="_blank" class="contact-link">FB</a> / 
+            <a href="https://www.instagram.com/grassss_yuuuu/" target="_blank" class="contact-link">IG</a> / 
+            <span style="color:var(--color-sumi-text); font-weight: bold; margin-left: 10px;">Discord (traveler7378)</span>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // 背景飄葉
     setInterval(() => {
+        const container = document.getElementById('leaf-container');
+        if(!container) return;
         const leaf = document.createElement('div');
         leaf.className = 'leaf-fall';
         leaf.innerText = ['🍁', '🍂', '🍃'][Math.floor(Math.random()*3)];
         leaf.style.left = Math.random() * 100 + 'vw';
         const dur = Math.random() * 5 + 5;
         leaf.style.animation = `fall ${dur}s linear forwards`;
-        document.getElementById('leaf-container').appendChild(leaf);
+        if(leaf.innerText === '🍃') leaf.style.opacity = 0.5;
+        container.appendChild(leaf);
         setTimeout(() => leaf.remove(), dur * 1000);
     }, 900);
 
-    // 點擊噴葉
     document.addEventListener('click', (e) => {
+        if (e.target.closest('.rickroll-btn')) return;
         for(let i=0; i<6; i++) {
             const l = document.createElement('div');
             l.className = 'click-leaf'; l.innerText = '🍂';
